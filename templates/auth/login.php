@@ -1,29 +1,38 @@
-<?php require __DIR__ . '/../layout/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <meta charset="UTF-8">
+    <title>PharmaFEFO - Authentication Gateway</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f1f3f7; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { width: 100%; max-width: 400px; border: none; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    </style>
 </head>
-<div class="max-w-md mx-auto my-12 bg-white p-8 border border-slate-200 rounded-2xl shadow-xl shadow-slate-100/70">
-    <div class="text-center mb-6">
-        <div class="inline-flex bg-emerald-600 text-white p-3 rounded-xl mb-3"><i class="fa-solid fa-shield-halved text-xl"></i></div>
-        <h2 class="text-xl font-bold text-slate-900">Secure Entry Gateway</h2>
+<body>
+
+<div class="card login-card p-4 bg-white">
+    <div class="text-center mb-4">
+        <h3 class="text-primary font-weight-bold"><img src="" alt="" class="d-none"> PharmaFEFO</h3>
+        <p class="text-muted small">Log in to manage pharmaceutical shelf-life optimizations</p>
     </div>
-    
-    <?php if ($error): ?>
-        <div class="mb-4 bg-rose-50 border border-rose-200 text-rose-800 p-3 rounded-xl text-xs font-semibold flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> <?= htmlspecialchars($error) ?>
-        </div>
+
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger p-2 small text-center"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
-    <form method="POST" action="/login" class="space-y-4">
-        <div>
-            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Clinical Email</label>
-            <input type="email" name="email" required placeholder="user@pharma.com" class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+    <form action="/index.php?route=login" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label text-secondary small font-weight-bold">Username</label>
+            <input type="text" name="username" id="username" class="form-control rounded-pill px-3" required autofocus>
         </div>
-        <div>
-            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Security Key String</label>
-            <input type="password" name="password" required placeholder="••••••••" class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <div class="mb-4">
+            <label for="password" class="form-label text-secondary small font-weight-bold">Password</label>
+            <input type="password" name="password" id="password" class="form-control rounded-pill px-3" required>
         </div>
-        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl text-sm transition-all shadow-md">Authenticate Portal</button>
+        <button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">Authorize Session</button>
     </form>
 </div>
-<?php require __DIR__ . '/../layout/footer.php'; ?>
+
+</body>
+</html>
