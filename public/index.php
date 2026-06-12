@@ -1,21 +1,37 @@
 <?php
-declare(strict_types=1);
 
-// Load the database configuration file
+declare(strict_types=1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+session_start();
+
+// Change this:
 require_once __DIR__ . '/../config/database.php';
 
-// PSR-4 Style Manual Autoloader
+// The autoloader won't find Config\Database because it only handles App\
+// But since you require_once it manually, that's fine — just make sure
+// the file path is correct:
+// var_dump(file_exists(__DIR__ . '/../config/database.php')); // add this to test
+require_once __DIR__ . '/../src/Middleware/AuthMiddleware.php';
+
+
 spl_autoload_register(function ($class) {
-    $prefix = 'App\\';
-    $base_dir = __DIR__ . '/../src/';
-    $len = strlen($prefix);
-    
-    if (strncmp($prefix, $class, $len) === 0) {
-        $relative_class = substr($class, $len);
-        $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    // Handle App\ namespace
+    if (strncmp('App\\', $class, 4) === 0) {
+        $relative = substr($class, 4);
+        $file = __DIR__ . '/../src/' . str_replace('\\', '/', $relative) . '.php';
         if (file_exists($file)) {
             require_once $file;
-            return;
+        }
+    }
+
+    // Handle Config\ namespace  
+    if (strncmp('Config\\', $class, 7) === 0) {
+        $relative = substr($class, 7);
+        $file = __DIR__ . '/../config/' . str_replace('\\', '/', $relative) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
         }
     }
 });
@@ -28,50 +44,47 @@ use App\Controller\AuthController;
 use App\Controller\DashboardController;
 use App\Controller\StockController;
 
-// Grab our plain static PDO connection
 $db = Database::getConnection();
 
-// Instantiate Repositories
 $userRepository = new UserRepository($db);
 $productRepository = new ProductRepository($db);
 $lotRepository = new LotRepository($db);
 
-// Route Resolution
 $route = $_GET['route'] ?? 'dashboard';
-
+// TEMPORARY DEBUG - remove after fixing
+// echo "<pre>";
+// echo "Base dir: " . realpath(__DIR__ . '/../src/') . "\n";
+// echo "AuthController exists: " . (file_exists(__DIR__ . '/../src/Controller/AuthController.php') ? 'YES' : 'NO') . "\n";
+// echo "Database.php exists: " . (file_exists(__DIR__ . '/../config/database.php') ? 'YES' : 'NO') . "\n";
+// echo "</pre>";
 switch ($route) {
     case 'login':
-        $controller = new AuthController($userRepository);
-        $controller->login();
+        (new AuthController($userRepository))->login();
         break;
 
     case 'logout':
-        $controller = new AuthController($userRepository);
-        $controller->logout();
+        (new AuthController($userRepository))->logout();
         break;
 
     case 'dashboard':
-        $controller = new DashboardController($productRepository, $lotRepository);
-        $controller->index();
+        (new DashboardController($productRepository, $lotRepository))->index();
         break;
-
+    // Add to your switch statement:
     case 'stock_entry':
-        $controller = new StockController($productRepository, $lotRepository);
-        $controller->entry();
+        (new StockController($productRepository, $lotRepository))->entry();
         break;
 
     case 'stock_dispatch':
-        $controller = new StockController($productRepository, $lotRepository);
-        $controller->dispatch();
+        (new StockController($productRepository, $lotRepository))->dispatch();
         break;
 
     case 'loss_report':
-        $controller = new DashboardController($productRepository, $lotRepository);
-        $controller->lossReport();
+        (new DashboardController($productRepository, $lotRepository))->lossReport();
         break;
-
+    case 'register':
+        (new AuthController($userRepository))->register();
+        break;  
     default:
-        header("HTTP/1.0 404 Not Found");
-        echo "404 - Page Not Found";
-        break;
+        http_response_code(404);
+        echo "404";
 }
