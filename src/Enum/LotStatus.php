@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
+use DateTime;
+
 enum LotStatus: string {
     case GREEN = 'GREEN';
     case ORANGE = 'ORANGE';
@@ -10,15 +12,14 @@ enum LotStatus: string {
     case EXPIRED = 'EXPIRED';
 
     public static function fromExpirationDate(string $expirationDate): self {
-        $today = new \DateTime('today');
-        $expiry = new \DateTime($expirationDate);
+        $today = new DateTime('today');
+        $expiry = new DateTime($expirationDate);
         
         if ($expiry < $today) {
             return self::EXPIRED;
         }
 
-        $interval = $today->diff($expiry);
-        $days = (int)$interval->format('%r%a');
+        $days = (int)$today->diff($expiry)->format('%r%a');
 
         if ($days < 30) {
             return self::RED;
@@ -31,10 +32,10 @@ enum LotStatus: string {
 
     public function getBadgeClass(): string {
         return match($this) {
-            self::GREEN => 'bg-success text-white',
-            self::ORANGE => 'bg-warning text-dark',
-            self::RED => 'bg-danger text-white',
-            self::EXPIRED => 'bg-secondary text-white',
+            self::GREEN => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+            self::ORANGE => 'bg-amber-50 text-amber-700 border border-amber-200',
+            self::RED => 'bg-red-50 text-red-700 border border-red-200',
+            self::EXPIRED => 'bg-gray-100 text-gray-600 border border-gray-300',
         };
     }
 }
