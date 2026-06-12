@@ -1,110 +1,98 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2 text-dark font-weight-bold">Pharmacy Dashboard</h1>
-    <div class="input-group w-25">
-        <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-        <input type="text" class="form-control border-start-0" placeholder="Search index metrics...">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-gray-200 mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Pharmacy Dashboard</h1>
+    <div class="mt-3 sm:mt-0 relative max-w-xs w-full">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+        </div>
+        <input type="text" class="block w-full pl-9 pr-3 py-1.5 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" placeholder="Search metrics...">
     </div>
 </div>
 
-<div class="row g-4 mb-4">
-    <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card p-3 border-start border-primary border-4 bg-white h-100">
-            <div class="d-flex align-items-center">
-                <div class="p-3 bg-light text-primary rounded-circle me-3"><i class="fa-solid fa-prescription-bottle fa-2x"></i></div>
-                <div>
-                    <h6 class="text-muted small uppercase mb-1">Total Products</h6>
-                    <h3 class="mb-0 fw-bold"><?= $stats['total_products'] ?></h3>
-                </div>
-            </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+    <div class="bg-white p-5 rounded-xl border-l-4 border-blue-600 shadow-sm flex items-center">
+        <div class="p-3 bg-blue-50 text-blue-600 rounded-full mr-4"><i class="fa-solid fa-prescription-bottle text-xl"></i></div>
+        <div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Products</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5"><?= $stats['total_products'] ?></p>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card p-3 border-start border-success border-4 bg-white h-100">
-            <div class="d-flex align-items-center">
-                <div class="p-3 bg-light text-success rounded-circle me-3"><i class="fa-solid fa-boxes-stacked fa-2x"></i></div>
-                <div>
-                    <h6 class="text-muted small uppercase mb-1">Total Active Lots</h6>
-                    <h3 class="mb-0 fw-bold"><?= $stats['total_lots'] ?></h3>
-                </div>
-            </div>
+    <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-600 shadow-sm flex items-center">
+        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-full mr-4"><i class="fa-solid fa-boxes-stacked text-xl"></i></div>
+        <div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Active Lots</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5"><?= $stats['total_lots'] ?></p>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card p-3 border-start border-warning border-4 bg-white h-100">
-            <div class="d-flex align-items-center">
-                <div class="p-3 bg-light text-warning rounded-circle me-3"><i class="fa-solid fa-hourglass-half fa-2x"></i></div>
-                <div>
-                    <h6 class="text-muted small uppercase mb-1">Expiring 90 Days</h6>
-                    <h3 class="mb-0 fw-bold"><?= $stats['expiring_90'] ?></h3>
-                </div>
-            </div>
+    <div class="bg-white p-5 rounded-xl border-l-4 border-amber-50 shadow-sm flex items-center">
+        <div class="p-3 bg-amber-50 text-amber-600 rounded-full mr-4"><i class="fa-solid fa-hourglass-half text-xl"></i></div>
+        <div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Expiring 90 Days</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5"><?= $stats['expiring_90'] ?></p>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card p-3 border-start border-danger border-4 bg-white h-100">
-            <div class="d-flex align-items-center">
-                <div class="p-3 bg-light text-danger rounded-circle me-3"><i class="fa-solid fa-triangle-exclamation fa-2x"></i></div>
-                <div>
-                    <h6 class="text-muted small uppercase mb-1">Expired Lots</h6>
-                    <h3 class="mb-0 fw-bold"><?= $stats['expired'] ?></h3>
-                </div>
-            </div>
+    <div class="bg-white p-5 rounded-xl border-l-4 border-red-600 shadow-sm flex items-center">
+        <div class="p-3 bg-red-50 text-red-600 rounded-full mr-4"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
+        <div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Expired Lots</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5"><?= $stats['expired'] ?></p>
         </div>
     </div>
 </div>
 
-<div class="row g-4">
-    <div class="col-12 col-lg-6">
-        <div class="card bg-white p-3 h-100">
-            <h5 class="card-title text-danger mb-3 fw-bold"><i class="fa-solid fa-circle-exclamation me-2"></i>Critical Tracking Index (&lt; 30 Days Remaining)</h5>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr><th>Product</th><th>Lot #</th><th>Expiry</th><th>Qty</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        <?php if(empty($criticalLots)): ?><tr><td colspan="5" class="text-center text-muted small py-3">No immediate critical expiration hazards reported.</td></tr><?php endif; ?>
-                        <?php foreach($criticalLots as $lot): 
-                            $prod = $productRepo->findById($lot->getProductId()); ?>
-                            <tr>
-                                <td><strong><?= htmlspecialchars($prod ? $prod->getName() : 'Unknown') ?></strong></td>
-                                <td><code class="text-dark"><?= htmlspecialchars($lot->getLotNumber()) ?></code></td>
-                                <td class="text-danger fw-semibold"><?= $lot->getExpirationDate() ?></td>
-                                <td><?= $lot->getQuantity() ?></td>
-                                static <td><span class="badge <?= $lot->getStatus()->getBadgeClass() ?>"><?= $lot->getStatus()->value ?></span></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h5 class="text-base font-bold text-red-600 mb-4 flex items-center"><i class="fa-solid fa-circle-exclamation mr-2"></i>Critical Index (&lt; 30 Days Remaining)</h5>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Product</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Lot #</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Expiry</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Qty</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    <?php if(empty($criticalLots)): ?><tr><td colspan="4" class="text-center text-gray-400 text-xs py-4">No immediate critical hazards reported.</td></tr><?php endif; ?>
+                    <?php foreach($criticalLots as $lot): $prod = $productRepo->findById($lot->getProductId()); ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-3 py-3 font-semibold text-gray-900"><?= htmlspecialchars($prod ? $prod->getName() : 'Unknown') ?></td>
+                            <td class="px-3 py-3 font-mono text-xs text-gray-600"><?= htmlspecialchars($lot->getLotNumber()) ?></td>
+                            <td class="px-3 py-3 text-red-600 font-medium"><?= $lot->getExpirationDate() ?></td>
+                            <td class="px-3 py-3 text-gray-700"><?= $lot->getQuantity() ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="col-12 col-lg-6">
-        <div class="card bg-white p-3 h-100">
-            <h5 class="card-title text-warning mb-3 fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>Warning Tracking Index (30 - 90 Days Remaining)</h5>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr><th>Product</th><th>Lot #</th><th>Expiry</th><th>Qty</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        <?php if(empty($warningLots)): ?><tr><td colspan="5" class="text-center text-muted small py-3">No warning metrics identified across structural indexes.</td></tr><?php endif; ?>
-                        <?php foreach($warningLots as $lot): 
-                            $prod = $productRepo->findById($lot->getProductId()); ?>
-                            <tr>
-                                <td><strong><?= htmlspecialchars($prod ? $prod->getName() : 'Unknown') ?></strong></td>
-                                <td><code class="text-dark"><?= htmlspecialchars($lot->getLotNumber()) ?></code></td>
-                                <td class="text-warning fw-semibold"><?= $lot->getExpirationDate() ?></td>
-                                <td><?= $lot->getQuantity() ?></td>
-                                <td><span class="badge <?= $lot->getStatus()->getBadgeClass() ?>"><?= $lot->getStatus()->value ?></span></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h5 class="text-base font-bold text-amber-500 mb-4 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2"></i>Warning Index (30 - 90 Days Remaining)</h5>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Product</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Lot #</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Expiry</th>
+                        <th class="px-3 py-2.5 font-semibold text-gray-600">Qty</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    <?php if(empty($warningLots)): ?><tr><td colspan="4" class="text-center text-gray-400 text-xs py-4">No warning metrics identified across tracking arrays.</td></tr><?php endif; ?>
+                    <?php foreach($warningLots as $lot): $prod = $productRepo->findById($lot->getProductId()); ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-3 py-3 font-semibold text-gray-900"><?= htmlspecialchars($prod ? $prod->getName() : 'Unknown') ?></td>
+                            <td class="px-3 py-3 font-mono text-xs text-gray-600"><?= htmlspecialchars($lot->getLotNumber()) ?></td>
+                            <td class="px-3 py-3 text-amber-600 font-medium"><?= $lot->getExpirationDate() ?></td>
+                            <td class="px-3 py-3 text-gray-700"><?= $lot->getQuantity() ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

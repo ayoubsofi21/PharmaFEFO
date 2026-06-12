@@ -4,73 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PharmaFEFO - Medical Inventory Engine</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .navbar-brand { font-weight: 700; color: #0d6efd; }
-        .sidebar { background: #ffffff; min-height: calc(100vh - 56px); box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
-        .sidebar .nav-link { color: #495057; font-weight: 500; padding: 0.8rem 1rem; border-radius: 0.375rem; margin-bottom: 0.2rem; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { background-color: #e9ecef; color: #0d6efd; }
-        .card { border: none; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02); }
-        .card-counter { border-left: 4px solid #0d6efd; }
-    </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/index.php?route=dashboard"><i class="fa-solid fa-prescription-bottle-medical me-2 text-primary"></i>PharmaFEFO</a>
-        <div class="d-flex align-items-center text-white">
-            <?php if(isset($_SESSION['user_username'])): ?>
-                <span class="me-3 small text-muted">Role: <strong class="text-light"><?= htmlspecialchars($_SESSION['user_role']) ?></strong></span>
-                <span class="badge bg-primary text-white p-2"><i class="fa-solid fa-user me-1"></i> <?= htmlspecialchars($_SESSION['user_username']) ?></span>
-            <?php endif; ?>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+<nav class="bg-gray-900 text-white sticky top-0 z-50 shadow-sm">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14">
+            <div class="flex items-center">
+                <a class="flex items-center text-lg font-bold tracking-tight text-white" href="index.php?route=dashboard">
+                    <i class="fa-solid fa-prescription-bottle-medical mr-2 text-blue-500"></i>PharmaFEFO
+                </a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <?php if(isset($_SESSION['user_username'])): ?>
+                    <span class="text-xs text-gray-400">Role: <strong class="text-gray-200"><?= htmlspecialchars($_SESSION['user_role']) ?></strong></span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-600 text-white">
+                        <i class="fa-solid fa-user mr-1.5"></i> <?= htmlspecialchars($_SESSION['user_username']) ?>
+                    </span>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($_GET['route'] ?? '') === 'dashboard' ? 'active' : '' ?>" href="/index.php?route=dashboard">
-                            <i class="fa-solid fa-chart-pie me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-pills me-2"></i> Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-boxes-stacked me-2"></i> Lots</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($_GET['route'] ?? '') === 'stock_entry' ? 'active' : '' ?>" href="/index.php?route=stock_entry">
-                            <i class="fa-solid fa-circle-plus me-2 text-success"></i> Stock Entry
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($_GET['route'] ?? '') === 'stock_dispatch' ? 'active' : '' ?>" href="/index.php?route=stock_dispatch">
-                            <i class="fa-solid fa-truck-ramp-box me-2 text-primary"></i> Stock Dispatch
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($_GET['route'] ?? '') === 'loss_report' ? 'active' : '' ?>" href="/index.php?route=loss_report">
-                            <i class="fa-solid fa-file-invoice-dollar me-2 text-danger"></i> Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-users me-2"></i> Users</a>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <hr>
-                        <a class="nav-link text-danger" href="/index.php?route=logout">
-                            <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
-                        </a>
-                    </li>
-                </ul>
+<div class="flex flex-1 max-w-full mx-auto w-full">
+    <aside class="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-3.5rem)] hidden md:block p-4 flex-shrink-0">
+        <nav class="space-y-1">
+            <?php $current_route = $_GET['route'] ?? 'dashboard'; ?>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=dashboard">
+                <i class="fa-solid fa-chart-pie mr-3 w-5 text-center"></i> Dashboard
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'products' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=products">
+                <i class="fa-solid fa-pills mr-3 w-5 text-center"></i> Products
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'lots' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=lots">
+                <i class="fa-solid fa-boxes-stacked mr-3 w-5 text-center"></i> Lots
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'stock_entry' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=stock_entry">
+                <i class="fa-solid fa-circle-plus mr-3 w-5 text-center text-emerald-600"></i> Stock Entry
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'stock_dispatch' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=stock_dispatch">
+                <i class="fa-solid fa-truck-ramp-box mr-3 w-5 text-center text-blue-600"></i> Stock Dispatch
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'loss_report' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=loss_report">
+                <i class="fa-solid fa-file-invoice-dollar mr-3 w-5 text-center text-red-600"></i> Reports
+            </a>
+            
+            <a class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors <?= $current_route === 'users' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>" href="index.php?route=users">
+                <i class="fa-solid fa-users mr-3 w-5 text-center"></i> Users
+            </a>
+            
+            <div class="pt-4 mt-4 border-t border-gray-200">
+                <a class="flex items-center px-3 py-2.5 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 transition-colors" href="index.php?route=logout">
+                    <i class="fa-solid fa-right-from-bracket mr-3 w-5 text-center"></i> Logout
+                </a>
             </div>
         </nav>
-        
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+    </aside>
+    
+    <main class="flex-1 min-w-0 p-6 md:p-8 overflow-y-auto">

@@ -1,36 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-100">
 <head>
     <meta charset="UTF-8">
     <title>PharmaFEFO - Authentication Gateway</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f1f3f7; height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-card { width: 100%; max-width: 400px; border: none; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
 
-<div class="card login-card p-4 bg-white">
-    <div class="text-center mb-4">
-        <h3 class="text-primary font-weight-bold"><img src="" alt="" class="d-none"> PharmaFEFO</h3>
-        <p class="text-muted small">Log in to manage pharmaceutical shelf-life optimizations</p>
+<div class="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+    <div class="text-center">
+        <h3 class="text-3xl font-extrabold text-blue-600 tracking-tight">PharmaFEFO</h3>
+        <p class="mt-2 text-sm text-gray-500">Log in to manage pharmaceutical shelf-life optimizations</p>
     </div>
 
     <?php if (!empty($error)): ?>
-        <div class="alert alert-danger p-2 small text-center"><?= htmlspecialchars($error) ?></div>
+        <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg p-3 text-center">
+            <?= htmlspecialchars($error) ?>
+        </div>
     <?php endif; ?>
 
-    <form action="/index.php?route=login" method="POST">
-        <div class="mb-3">
-            <label for="username" class="form-label text-secondary small font-weight-bold">Username</label>
-            <input type="text" name="username" id="username" class="form-control rounded-pill px-3" required autofocus>
+    <form class="mt-8 space-y-6" action="/PharmaFEFO/public/index.php?route=login" method="POST">
+        <div class="space-y-4">
+            <div>
+                <label for="username" class="block text-xs font-semibold uppercase tracking-wider text-gray-500">email</label>
+                <input type="text" name="username" id="username" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" autofocus>
+            </div>
+            <div>
+                <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-gray-500">Password</label>
+                <input type="password" name="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
         </div>
-        <div class="mb-4">
-            <label for="password" class="form-label text-secondary small font-weight-bold">Password</label>
-            <input type="password" name="password" id="password" class="form-control rounded-pill px-3" required>
+
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                Authorize Session
+            </button>
         </div>
-        <button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">Authorize Session</button>
+        <p class="text-center text-sm text-gray-500 mt-4">
+        Don't have an account?
+        <a href="/PharmaFEFO/public/index.php?route=register" class="text-blue-600 font-semibold hover:underline">Register</a>
+    </p>
     </form>
 </div>
 
