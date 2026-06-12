@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use DateTime;
-
 enum LotStatus: string {
     case GREEN = 'GREEN';
     case ORANGE = 'ORANGE';
@@ -12,14 +10,15 @@ enum LotStatus: string {
     case EXPIRED = 'EXPIRED';
 
     public static function fromExpirationDate(string $expirationDate): self {
-        $today = new DateTime('today');
-        $expiry = new DateTime($expirationDate);
+        $today = new \DateTime('today');
+        $expiry = new \DateTime($expirationDate);
         
         if ($expiry < $today) {
             return self::EXPIRED;
         }
 
-        $days = (int)$today->diff($expiry)->format('%r%a');
+        $interval = $today->diff($expiry);
+        $days = (int)$interval->format('%r%a');
 
         if ($days < 30) {
             return self::RED;
