@@ -19,7 +19,7 @@ class StockController {
     }
 
     public function entry(): void {
-        requireAuth(['Admin', 'Stock Manager']);
+        requireAuth(['ADMINISTRATEUR', 'PREPARATEUR']);
         
         $products = $this->productRepository->findAll();
         $errors = [];
@@ -59,7 +59,7 @@ class StockController {
     }
 
     public function dispatch(): void {
-        requireAuth(['Admin', 'Pharmacist', 'Stock Manager']);
+        requireAuth(['ADMINISTRATEUR', 'PHARMACIEN', 'PREPARATEUR']);
 
         $products = $this->productRepository->findAll();
         $error = null;

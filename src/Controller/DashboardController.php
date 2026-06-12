@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
@@ -27,13 +26,13 @@ class DashboardController {
 
         $criticalLots = $this->lotRepository->findCriticalLots();
         $warningLots  = $this->lotRepository->findWarningLots();
-        $productRepo  = $this->productRepository; // passed down contextually to pull relative entities
+        $productRepo  = $this->productRepository;
 
         require __DIR__ . '/../../templates/dashboard/index.php';
     }
 
     public function lossReport(): void {
-        requireAuth(['Admin', 'Pharmacist']);
+        requireAuth(['ADMINISTRATEUR', 'PHARMACIEN']);
 
         $expiredLots = $this->lotRepository->findExpiredLots();
         $productRepository = $this->productRepository;
